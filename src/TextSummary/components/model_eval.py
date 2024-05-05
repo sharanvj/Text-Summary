@@ -1,4 +1,4 @@
-from transformers import AutoTokenizer, T5ForConditionalGeneration
+from transformers import T5Tokenizer, T5ForConditionalGeneration
 from datasets import load_dataset, load_from_disk, load_metric
 from TextSummary.entity import ModelEvalConfig
 import torch
@@ -37,7 +37,7 @@ class ModelEval:
 
     def evaluate(self):
         device = "mps" if torch.backends.mps.is_available() else "cpu"
-        tokenizer = AutoTokenizer.from_pretrained(self.config.tokenizer_path)
+        tokenizer = T5Tokenizer.from_pretrained(self.config.tokenizer_path)
         model_t5 = T5ForConditionalGeneration.from_pretrained(self.config.model_path).to(device)
 
         dataset = load_from_disk(self.config.data_path)
@@ -46,7 +46,7 @@ class ModelEval:
 
         rouge_metric = load_metric('rouge')
 
-        score = self.calculate_metric(dataset['test'], rouge_metric, model_t5, tokenizer, batch_size = 2)
+        score = self.calculate_metric(dataset['test'], rouge_metric, model_t5, tokenizer, batch_size = 2,column_text='dialogue', column_summary= 'summary')
 
         rouge_dict = dict((rn, score[rn].mid.fmeasure) for rn in rouge_names)
         df = pd.DataFrame(rouge_dict, index= ['T5-Small'])

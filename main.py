@@ -4,7 +4,7 @@ from TextSummary.pipeline.s3_data_transformation import DataTransformationTraini
 from TextSummary.pipeline.s4_model_train import ModelTrainingPipeline
 from TextSummary.pipeline.s5_model_eval import ModelEvaluationPipeline
 from TextSummary.logging import logger
-'''
+
 STAGE_NAME = "Data Ingestion Stage"
 
 try:
@@ -49,7 +49,7 @@ try:
 except Exception as e:
     logger.exception(e)
     raise e
-'''
+
 STAGE_NAME = "Model Evaluating Stage"
 
 try:

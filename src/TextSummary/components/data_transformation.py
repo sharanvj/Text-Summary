@@ -2,13 +2,13 @@ import os
 from TextSummary.logging import logger
 from TextSummary.entity import DataTransformationConfig
 from datasets import load_dataset, load_from_disk
-from transformers import AutoTokenizer
+from transformers import T5Tokenizer
 
 
 class Data_transformation:
     def __init__(self,config: DataTransformationConfig):
         self.config = config
-        self.tokenizer =  AutoTokenizer.from_pretrained(config.tokenizer_name)
+        self.tokenizer =  T5Tokenizer.from_pretrained(config.tokenizer_name)
 
     
     def convert_data_to_features(self,example_batch):
